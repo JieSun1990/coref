@@ -40,27 +40,46 @@ def create_corpus(config, tokenizer, split_name, is_training=True):
 
 
 
+# def create_logger(config, create_file=True):
+#     logging.basicConfig(datefmt='%Y-%m-%d %H:%M:%S')
+#     logger = logging.getLogger('simple_example')
+#     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+#     c_handler = logging.StreamHandler()
+#     c_handler.setLevel(logging.INFO)
+#     c_handler.setFormatter(formatter)
+#     logger.addHandler(c_handler)
+
+#     if create_file:
+#         if not os.path.exists(config.log_path):
+#             os.makedirs(config.log_path)
+
+#         f_handler = logging.FileHandler(
+#             os.path.join(config.log_path,'{}.txt'.format(datetime.now().strftime("%Y_%m_%d_%H_%M_%S"))), mode='w')
+#         f_handler.setLevel(logging.INFO)
+#         f_handler.setFormatter(formatter)
+#         logger.addHandler(f_handler)
+
+#     logger.propagate = False
+
+#     return logger
+
 def create_logger(config, create_file=True):
-    logging.basicConfig(datefmt='%Y-%m-%d %H:%M:%S')
+    if not os.path.exists(config.log_path):
+        os.makedirs(config.log_path)
+
+    logging.basicConfig(
+        datefmt='%Y-%m-%d %H:%M:%S',
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            # logging.FileHandler(os.path.join(config.log_path, "test.log")),
+            logging.FileHandler(os.path.join(config.log_path,'{}.log'.format(datetime.now().strftime("%Y_%m_%d_%H_%M_%S")))),
+            logging.StreamHandler()
+        ]
+    )
     logger = logging.getLogger('simple_example')
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-
-    c_handler = logging.StreamHandler()
-    c_handler.setLevel(logging.INFO)
-    c_handler.setFormatter(formatter)
-    logger.addHandler(c_handler)
-
-    if create_file:
-        if not os.path.exists(config.log_path):
-            os.makedirs(config.log_path)
-
-        f_handler = logging.FileHandler(
-            os.path.join(config.log_path,'{}.txt'.format(datetime.now().strftime("%Y_%m_%d_%H_%M_%S"))), mode='w')
-        f_handler.setLevel(logging.INFO)
-        f_handler.setFormatter(formatter)
-        logger.addHandler(f_handler)
-
-    logger.propagate = False
+    logger.propagate = True
 
     return logger
 

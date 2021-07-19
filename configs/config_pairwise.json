@@ -12,7 +12,7 @@
   "use_gold_mentions": false,
   "mention_type": "mixed",
   "top_k": 0.35,
-  "training_method": "continue",
+  "training_method": "e2e",
   "subtopic": false,
   "use_predicted_topics": false,
 
